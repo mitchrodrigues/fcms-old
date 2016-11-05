@@ -1,0 +1,36 @@
+# MySQL. Versions 5.0 and up are supported.
+#
+# Install the MySQL driver:
+#   gem install activerecord-jdbcmysql-adapter
+#
+# Configure Using Gemfile
+# gem 'activerecord-jdbcmysql-adapter'
+#
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.7/en/old-client.html
+#
+
+<% db_name = ENV['DB_NAME'] || 'fcms'  %>
+<% db_host = ENV['DB_HOST'] || 'localhost' %>
+<% db_user = ENV['DB_USER'] || 'root' %>
+<% db_pass = ENV['DB_PASS'] || '' %>
+<% db_pool = ENV['DB_POOL'] || 5 %>
+
+default: &default
+  adapter: mysql
+  username: <%= db_user %>
+  password: <%= db_pass %>
+  host: <%= db_host %>
+  pool: <%= db_pool %>
+
+development:
+  <<: *default
+  database: <%= db_name %>
+
+test:
+  <<: *default
+  database: <%= db_name %>_test
+
+production:
+  <<: *default
+  database: <%= db_name %>
