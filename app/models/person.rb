@@ -4,9 +4,10 @@ require 'auth/model'
 # allow logins for families etc, to complete paperwork
 class Person < ActiveRecord::Base
   include Auth::Model
-
   include Addressable
-
+  include Permissable
+  
+  has_permissions
   has_addresses
 
   ALLOWED_ATTRIBUTES = [

@@ -11,5 +11,7 @@ class Organization < ActiveRecord::Base
   has_many :family_members, class_name: "Family"
   
   # Generic for relation building
-  has_many :people 
+  has_many :people
+  has_many :groups
+
 end

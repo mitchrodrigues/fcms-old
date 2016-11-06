@@ -1,6 +1,6 @@
 class Staff < Person
   include Assignable
-  
+
   assignment_owners employees: :offices
 
   assignment_resources case_workers: :children

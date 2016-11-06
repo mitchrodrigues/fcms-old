@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807030905) do
+ActiveRecord::Schema.define(version: 20161106001339) do
 
   create_table "address_relations", force: :cascade do |t|
     t.integer "owner_id",   limit: 4
@@ -66,6 +66,40 @@ ActiveRecord::Schema.define(version: 20160807030905) do
   add_index "facilities", ["office_id"], name: "index_facilities_on_office_id", using: :btree
   add_index "facilities", ["organization_id"], name: "index_facilities_on_organization_id", using: :btree
 
+  create_table "group_members", force: :cascade do |t|
+    t.integer  "person_id",   limit: 4
+    t.integer  "person_type", limit: 4
+    t.integer  "group_id",    limit: 4
+    t.boolean  "active"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "group_members", ["group_id"], name: "index_group_members_on_group_id", using: :btree
+
+  create_table "group_permissions", force: :cascade do |t|
+    t.integer  "permission_id", limit: 4
+    t.integer  "group_id",      limit: 4
+    t.string   "level_string",  limit: 255
+    t.boolean  "active",                    default: true
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "group_permissions", ["active"], name: "index_group_permissions_on_active", using: :btree
+  add_index "group_permissions", ["group_id"], name: "index_group_permissions_on_group_id", using: :btree
+  add_index "group_permissions", ["permission_id"], name: "index_group_permissions_on_permission_id", using: :btree
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name",            limit: 255
+    t.integer  "organization_id", limit: 4
+    t.boolean  "active",                      default: true
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "groups", ["organization_id"], name: "index_groups_on_organization_id", using: :btree
+
   create_table "offices", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.integer  "organization_id", limit: 4
@@ -105,5 +139,12 @@ ActiveRecord::Schema.define(version: 20160807030905) do
   add_index "people", ["organization_id"], name: "index_people_on_organization_id", using: :btree
   add_index "people", ["type", "organization_id"], name: "index_people_on_type_and_organization_id", using: :btree
   add_index "people", ["type"], name: "index_people_on_type", using: :btree
+
+  create_table "permissions", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.string   "description", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
 end

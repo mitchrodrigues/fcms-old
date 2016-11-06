@@ -13,9 +13,7 @@ module V1
 
       log_in_user(user)
 
-      puts session[:user_id].inspect
-
-      api_render(true, "AUTH.LOGIN_SUCCESS", user: user.as_json)
+      api_render(true, "AUTH.LOGIN_SUCCESS", user: session_return_hash)
     end
 
     def destroy
@@ -25,9 +23,17 @@ module V1
     end
 
 
-    def index
+    def index      
       return api_render(false, "AUTH.NOT_LOGGED_IN") unless current_user
-      return api_render(true, "AUTH.LOGGED_IN", user: current_user.as_json)
+      return api_render(true, "AUTH.LOGGED_IN", user: session_return_hash)
+    end
+
+
+    private
+    def session_return_hash
+      attribs = current_user.as_json
+      attribs['organization'] = current_organization
+      attribs
     end
   end
 end

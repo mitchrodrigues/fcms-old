@@ -73,6 +73,13 @@ module V1
       api_render(true, "CHILD.PLACEMENT_ENDED")
     end
 
+    #######################################################
+    # Mapping
+    #######################################################
+    def mapping
+      mapping = Mapping::Children.new(person: current_user)
+      render json: { mapping: mapping.available_fields }
+    end
 
     #######################################################
     # Private

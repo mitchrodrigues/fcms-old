@@ -12,7 +12,6 @@ facility     = office.facilities.create(name: "Pro Care", organization_id: offic
 
 facility.address_add(primary: true, street1: "555 Facility Dr", city: "Cameron Park", postal_code: 95682, state: "ca")
 
-
 # Staff / SocialWorker
 staff = organization.staff.create({
           first_name: "Admin",
@@ -20,6 +19,7 @@ staff = organization.staff.create({
           password:   "staff1234",
           email:      "admin@example.com"
         })
+
 
 staff.address_add(primary: true, street1: "5584 Washington Dr", city: "Cameron Park", postal_code: 95682, state: "ca")
 
@@ -84,8 +84,24 @@ end
 children.last.family << family_members.last
 
 # Tag the family member to this child as well
+# Permissions
+permissions = Permission.create([
+  {
+    name: 'child-person-data',
+    description: 'Child Personal Data'
+  },
+  {
+    name: 'child-data',
+    description: 'View Basic Child Data'
+  }
+])
+
+group = organization.groups.create({ name: 'Administrator' })
+group.add_person(staff)
+
+permissions.each do |permission|
+  group.add_permission(permission: permission, level: 'write')
+end
 
 
 puts "Ending Seed"
-
-

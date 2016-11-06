@@ -1,16 +1,7 @@
 Rails.application.routes.draw do
-  # resources :facilities,    except: [:new, :edit]
-  # resources :offices,       except: [:new, :edit]
-  # resources :children,      except: [:new, :edit]
-  # resources :organizations, except: [:new, :edit] do
-  #   member do
-  #     get :roster, as: :roster_path
-  #   end
-  # end
-
-
   namespace :v1 do
     resources :organization
+    resources :groups    
 
     resources :children do
       # TODO: Probably move this to its own controller
@@ -23,6 +14,7 @@ Rails.application.routes.draw do
 
       collection do
         get :case_load
+        get :mapping
         post '/case_load/search', action: :case_load_search
 
         post :search
@@ -41,5 +33,6 @@ Rails.application.routes.draw do
         delete '/', action: :destroy
       end
     end
+
   end
 end
