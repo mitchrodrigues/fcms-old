@@ -9,6 +9,7 @@ class Person < ActiveRecord::Base
   
   has_permissions
   has_addresses
+  has_paper_trail
 
   ALLOWED_ATTRIBUTES = [
     :first_name,
@@ -82,6 +83,10 @@ class Person < ActiveRecord::Base
     attributes.except('password', 'salt')
   end
   
+  def subject
+    "#{first_name} #{last_name}"
+  end
+
   #######################################################
   # Class Methods
   #######################################################

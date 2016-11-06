@@ -8,7 +8,7 @@ module V1
     #######################################################
 
     def index
-      @children = current_user.organization.children
+      @children = current_user.organization.children.with_assignments
     end 
 
     def show
@@ -36,7 +36,7 @@ module V1
     #######################################################
 
     def case_load
-      @children = current_user.children
+      @children = current_user.children.with_assignments
       render action: :index
     end
 
@@ -92,7 +92,8 @@ module V1
       def children_search(ar_relation, query)
         ar_relation.
           children.
-          where(Child.name_search_clause(query))
+          where(Child.name_search_clause(query)).
+          with_assignments
       end
 
       def facility

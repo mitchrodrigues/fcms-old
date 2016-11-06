@@ -1,6 +1,7 @@
 class GroupPermission < ActiveRecord::Base
-
   LEVELS = { 0 => 'none', 1 => 'ro', 2 => 'rw' }
+
+  has_paper_trail
 
   belongs_to :permission
   belongs_to :group

@@ -25,3 +25,8 @@ gem 'rspec-rails', group: :test
 
 
 gem 'warbler'
+
+gem 'rack-cors', :require => 'rack/cors'
+
+gem "paperclip", "~> 5.0.0"
+gem 'paper_trail', '~> 5.2', '>= 5.2.2'

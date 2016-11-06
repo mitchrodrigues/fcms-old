@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       collection do
         get :case_load
         get :mapping
+
         post '/case_load/search', action: :case_load_search
 
         post :search
@@ -34,5 +35,15 @@ Rails.application.routes.draw do
       end
     end
 
+    match 'session',
+            controller: 'base',
+            via: :options, 
+            action: :options_route
+
+    match 'children(/:id)',
+            controller: 'base',
+            via: :options, 
+            action: :options_route
+   
   end
 end

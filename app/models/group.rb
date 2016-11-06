@@ -10,6 +10,8 @@ class Group < ActiveRecord::Base
 
   scope :for_organization, ->(org) { where('organization_id = ? OR organization_id = -1', org.id) }
 
+  has_paper_trail  
+
   def add_person(person)
     group_members.where(person: person).first_or_create
   end

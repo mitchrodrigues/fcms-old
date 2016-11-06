@@ -28,6 +28,9 @@ module V1
       return api_render(true, "AUTH.LOGGED_IN", user: session_return_hash)
     end
 
+    def options
+      render status: 200, nothing: true
+    end
 
     private
     def session_return_hash
