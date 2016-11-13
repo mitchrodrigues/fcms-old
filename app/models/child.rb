@@ -19,4 +19,8 @@ class Child < Person
   def current_facility
     active_placements.first.resource
   end
+
+  def primary_case_worker
+    @primary_case_worker ||= active_case_workers.first.resource
+  end
 end
