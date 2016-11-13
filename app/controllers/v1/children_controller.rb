@@ -1,7 +1,10 @@
+require 'action_view'
+
 module V1
   class ChildrenController < BaseController
     before_action :lookup_child, only: [:show, :update, :placement_start, :placement_end]
 
+    helper ActionView::Helpers::DateHelper
 
     #######################################################
     # Scaffold API
@@ -96,7 +99,7 @@ module V1
           with_assignments
       end
 
-      def facility
+      def facility        
         @facility ||= Facility.find(params[:facility_id])
       end
 

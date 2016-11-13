@@ -30,7 +30,7 @@ module V1
 
   before_action :set_paper_trail_whodunnit, if: ->() { current_user.present? }
   def user_for_paper_trail
-    current_user.subject
+    current_user.subject if current_user
   end
 
 

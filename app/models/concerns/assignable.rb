@@ -72,10 +72,18 @@ module Assignable
       assignee(sub, base, as_relation)
     end
 
+    def assignment_class(relation_name)
+      relation_type = relation_name.to_s.singularize.camelize
+      "Assignments::#{relation_type}"
+    end
+
     def assignment(relation, as_relation)
       relation_type = relation.to_s.singularize.camelize
 
-      has_many relation, active_assignment_filter, 
+      has_many relation, 
+        class_name: "Assignments::#{relation_type}", as: as_relation
+
+      has_many "active_#{relation}".to_sym, active_assignment_filter,
         class_name: "Assignments::#{relation_type}", as: as_relation
 
       has_many "inactive_#{relation}".to_sym, active_assignment_filter(true), 

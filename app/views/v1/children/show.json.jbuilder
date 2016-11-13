@@ -1,20 +1,40 @@
 json.success true
-json.extract! @child, :first_name, :middle_name, :last_name, :active, :dob, :type
+json.extract! @child, :first_name, :middle_name, :last_name, :active, :dob, :age
 json.photo_url 'http://fcms.sjc.taazoo.cc:8080/images/avatar.gif'
 
 json.case_workers do |cworkers|
   cworkers.array! @child.staff do |staff_hash|
     json.extract! staff_hash, :id, :first_name, :last_name
+    json.full_name staff_hash.subject
   end  
 end
 
+json.relations do |relations|
+  relations.array! @child.family do |family|
+    json.extract!  family, :id, :first_name, :last_name
+    json.full_name family.subject
+  end
+end
+
+if @child.current_placement
+  json.current_placement do |current_fac|
+    place = @child.current_placement
+
+    json.extract! place.resource, :id, :name, :bed_count, :active
+    json.duration_words  distance_of_time_in_words(place.started_at, Time.now)
+    json.duration_months place.duration
+  end
+end
+
+
 json.placements do |placement|
-  placement.array! @child.placements do |place|
+  placement.array! @child.inactive_placements do |place|
+    # next if place.id == @child.current_placement.id
     json.started_at place.started_at
     json.ended_at   place.ended_at
-    json.facility do |res| 
-      res.extract! place.resource, :name, :bed_count, :active
-      res.current  place.ended_at.blank?
-    end
+    json.duration_words   distance_of_time_in_words(place.started_at, place.ended_at)
+    json.duration_months place.duration
+    json.extract! place.resource, :id, :name, :bed_count, :active
+    json.current  place.ended_at.blank?
   end
 end
