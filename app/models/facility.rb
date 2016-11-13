@@ -15,4 +15,13 @@ class Facility < ActiveRecord::Base
   def ensure_organization_id
     self.organization_id ||= office.organization_id
   end
+
+  def available_bed_count
+    @av_bed_count  ||= bed_count.to_i - placement_count
+  end
+
+
+  def placement_count
+    active_placements.count
+  end
 end
