@@ -8,13 +8,12 @@ module Addressable
     end    
   end
 
-
   def current_addresses
     @current_addresses ||= address_relations.where(ended_at: nil)
   end
 
   def primary_address
-    @primary_address ||= address_relations.where(ended_at: nil, primary: true).first
+    @primary_address ||= address_relations.where(ended_at: nil, primary: true).first.address
   end
 
   def find_or_create_address(**attributes)

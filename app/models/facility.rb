@@ -20,7 +20,6 @@ class Facility < ActiveRecord::Base
     @av_bed_count  ||= bed_count.to_i - placement_count
   end
 
-
   def placement_count
     active_placements.count
   end
