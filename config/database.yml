@@ -17,6 +17,8 @@
 <% db_pool = ENV['DB_POOL'] || 5 %>
 <% db_url  = ENV['JAWSDB_MARIA_URL'] %>
 
+<% $stderr.puts "Using DB URL: #{db_url}" %>
+
 default: &default
   adapter: mysql
 <% if ENV['JAWSDB_MARIA_URL']  %>
