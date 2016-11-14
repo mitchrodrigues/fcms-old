@@ -22,9 +22,17 @@ module V1
       render json: result
     end
 
+    def with(*args)
+      parv = args.collect do |arg| 
+        rec = send(arg)        
+        return api_render(false, "ERROR.#{arg.to_s.upcase}_NOT_FOUND") if ! rec
+        rec
+      end
+
+      yield *parv
+    end
 
     def api_log(message)
-
     end
 
 

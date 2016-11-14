@@ -6,7 +6,8 @@ module V1
     # GET /v1/offices.json
 
     def current
-      render json: (current_user.offices || [])
+      @offices = current_user.offices || []
+      render action: :index
     end
 
 

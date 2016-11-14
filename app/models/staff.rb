@@ -9,7 +9,5 @@ class Staff < Person
 
   def ensure_staff_flag
     self.staff = true
-  end  
-
-
+  end
 end

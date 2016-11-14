@@ -104,4 +104,9 @@ permissions.each do |permission|
 end
 
 
+child = children.first
+
+child.add_note("This is a test note", staff)
+child.add_note("this is another test note", staff)
+
 puts "Ending Seed"

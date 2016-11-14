@@ -17,7 +17,10 @@ module Assignable
   end
 
   def assignment_end(assignment_name, rec)
-    assigns = assignment_relation(assignment_name).where(assignemnt_type_for(rec) => rec).first
+    assigns = assignment_relation(assignment_name).
+                where(assignemnt_type_for(rec) => rec).
+                where(ended_at: nil).first
+
     return false unless assigns
     assigns.update_attribute(:ended_at, Time.now) 
   end
@@ -90,15 +93,39 @@ module Assignable
         class_name: "Assignments::#{relation_type}", as: as_relation
 
       has_many :all_assignments, as: as_relation, class_name: "Assignment"
+
+      define_current_relation(relation)     
     end
 
     def assignee(assignee, through, as_relation)
+      define_current_resource(assignee, through, inverse_relation_of(as_relation))
+
       has_many assignee, { 
         through: through,
         source: inverse_relation_of(as_relation),
         as:     as_relation,
         source_type: assignee.to_s.singularize.camelize
       }
+    end
+
+    def define_current_relation(relation)
+      class_eval <<-STR, __FILE__, __LINE__
+        def current_#{relation.to_s.downcase.singularize}
+          #{relation}.where(ended_at: nil).first
+        end
+      STR
+    end
+
+    def define_current_resource(relation, through, as_relation)
+      class_eval <<-STR, __FILE__, __LINE__
+        def current_#{relation.to_s.downcase.singularize}
+          unless @current_#{relation.to_s.downcase.singularize}
+            current = current_#{through.to_s.downcase.singularize}
+            @current_#{relation.to_s.downcase.singularize} = current ? current.#{as_relation} : nil
+          end
+          @current_#{relation.to_s.downcase.singularize}
+        end
+      STR
     end
 
     private

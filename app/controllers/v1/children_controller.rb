@@ -2,7 +2,7 @@ require 'action_view'
 
 module V1
   class ChildrenController < BaseController
-    before_action :lookup_child, only: [:show, :update, :placement_start, :placement_end]
+    before_action :lookup_child, only: [:show, :update, :placement_start, :placement_end, :notes]
 
     helper ActionView::Helpers::DateHelper
 
@@ -15,6 +15,7 @@ module V1
     end 
 
     def show
+     
     end
 
     def create
@@ -25,7 +26,6 @@ module V1
       render action: :show
     end
 
-
     def update
       unless child.update_attributes(child_params)
         return api_render(false, "CHILD.SAVE_FAILED", error: child.errors.full_messages)
@@ -33,7 +33,6 @@ module V1
       render action: :show
     end
 
-   
     #######################################################
     # Current API
     #######################################################
@@ -64,17 +63,38 @@ module V1
     #######################################################
 
     def placement_start
-      facility.assignment_start(:placement, child)
-      return api_render(true, "CHILD.PLACEMENT_STARTED")
+      with(:facility) do |facility|
+        rec = facility.assignment_start(:placement, child)
+        return api_render(true, "CHILD.PLACEMENT_STARTED") unless rec.new_record?
+        return api_render(false,"CHILD.PLACEMENT_NOT_STARTED", error: rec.errors.full_messages)
+      end
     end
 
     def placement_end
-      if ! facility.assignment_end(:placement, child)
-        return  api_render(false, "CHILD.PLACEMENT_NOT_FOUND")
+      with(:facility) do |facility|
+        if ! facility.assignment_end(:placement, child)
+          return  api_render(false, "CHILD.PLACEMENT_NOT_FOUND")
+        end
+        return api_render(true, "CHILD.PLACEMENT_ENDED")
       end
-
-      api_render(true, "CHILD.PLACEMENT_ENDED")
     end
+
+    #######################################################
+    # Placement API
+    # TODO: Perhaps have an assignemnts controller
+    #       Also we should probably move this to model logic
+    #######################################################
+    def notes
+      with(:child_notes) do |nts|
+        return render partial: 'v1/common/notes', locals: { notes: nts }
+      end
+    end
+
+    def create_note
+
+    end
+
+
 
     #######################################################
     # Mapping
@@ -91,7 +111,6 @@ module V1
     #######################################################
 
     private
-
       def children_search(ar_relation, query)
         ar_relation.
           children.
@@ -99,8 +118,12 @@ module V1
           with_assignments
       end
 
+      def child_notes
+        @child.notes_for(current_user).includes(:creator)
+      end
+
       def facility        
-        @facility ||= Facility.find(params[:facility_id])
+        @facility ||= Facility.where(id: params[:facility_id]).first
       end
 
       def child_params

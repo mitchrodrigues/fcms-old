@@ -10,11 +10,16 @@ Rails.application.routes.draw do
         get    'placement', action: :show
         post   'placement', action: :placement_start
         delete 'placement', action: :placement_end
+
+        get  :notes
+        post :notes, action: :create_note
+
       end # / Member
 
       collection do
         get :case_load
         get :mapping
+
 
         post '/case_load/search', action: :case_load_search
 

@@ -29,7 +29,6 @@ class Assignment < ActiveRecord::Base
   validate :ensure_owner_type, on: :create
   validate :ensure_unique_assignments
 
-
   def ensure_unique_assignments
     not_unique = self.class.where({ owner: owner, resource: resource }).where("ended_at IS NULL").exists?
     return true unless not_unique
@@ -51,6 +50,12 @@ class Assignment < ActiveRecord::Base
 
   def terminate
     update_attribute(:ended_at, Time.now)
+  end
+
+  def duration
+    return nil if ended_at.blank?
+    time = ((ended_at - started_at).to_i / 2592000.0).round(2)
+    time.zero? ? 1 : time
   end
 
   class << self

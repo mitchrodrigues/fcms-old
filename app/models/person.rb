@@ -3,6 +3,9 @@ require 'auth/model'
 # This will allow us to portal people in 
 # allow logins for families etc, to complete paperwork
 class Person < ActiveRecord::Base
+  include Assignable
+  include Notable
+
   include Auth::Model
   include Addressable
   include Permissable
@@ -10,6 +13,7 @@ class Person < ActiveRecord::Base
   has_permissions
   has_addresses
   has_paper_trail
+  has_notes
 
   ALLOWED_ATTRIBUTES = [
     :first_name,

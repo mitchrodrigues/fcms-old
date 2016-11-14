@@ -8,7 +8,7 @@ class Office < ActiveRecord::Base
 
   has_many :facilities
 
-  assignment_resources employees: :staff
+  assignment_resources employees: :staff, 
+    wards: :children
 
-  has_many :children, through: :facilities
 end

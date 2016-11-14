@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161106073948) do
+ActiveRecord::Schema.define(version: 20161114010606) do
 
   create_table "address_relations", force: :cascade do |t|
     t.integer "owner_id",   limit: 4
@@ -100,6 +100,30 @@ ActiveRecord::Schema.define(version: 20161106073948) do
 
   add_index "groups", ["organization_id"], name: "index_groups_on_organization_id", using: :btree
 
+  create_table "note_targets", force: :cascade do |t|
+    t.integer  "noteable_id",   limit: 4
+    t.string   "noteable_type", limit: 255
+    t.integer  "note_id",       limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "note_targets", ["note_id"], name: "index_note_targets_on_note_id", using: :btree
+  add_index "note_targets", ["noteable_type", "noteable_id"], name: "index_note_targets_on_noteable_type_and_noteable_id", using: :btree
+
+  create_table "notes", force: :cascade do |t|
+    t.integer  "creator_id",   limit: 4
+    t.string   "creator_type", limit: 255
+    t.string   "type",         limit: 255
+    t.text     "note",         limit: 65535
+    t.string   "privacy",      limit: 255
+    t.boolean  "active"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "notes", ["creator_type", "creator_id"], name: "index_notes_on_creator_type_and_creator_id", using: :btree
+
   create_table "offices", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.integer  "organization_id", limit: 4
@@ -158,4 +182,5 @@ ActiveRecord::Schema.define(version: 20161106073948) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "note_targets", "notes"
 end
