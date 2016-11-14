@@ -20,7 +20,7 @@
 default: &default
   adapter: mysql
 <% if db_url %>
-  url: db_url
+  url: <%= db_url %>
 <% else %>
   username: <%= db_user %>
   password: <%= db_pass %>
