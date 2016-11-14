@@ -15,7 +15,6 @@ module V1
     end 
 
     def show
-     
     end
 
     def create
@@ -43,8 +42,8 @@ module V1
     end
 
     def case_load_search
-       @children = children_search(current_user, params[:query])
-       render action: :index
+      @children = children_search(current_user, params[:query])
+      render action: :index
     end
 
     #######################################################
@@ -78,23 +77,6 @@ module V1
         return api_render(true, "CHILD.PLACEMENT_ENDED")
       end
     end
-
-    #######################################################
-    # Placement API
-    # TODO: Perhaps have an assignemnts controller
-    #       Also we should probably move this to model logic
-    #######################################################
-    def notes
-      with(:child_notes) do |nts|
-        return render partial: 'v1/common/notes', locals: { notes: nts }
-      end
-    end
-
-    def create_note
-
-    end
-
-
 
     #######################################################
     # Mapping

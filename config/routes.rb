@@ -5,14 +5,14 @@ Rails.application.routes.draw do
 
     resources :children do
       # TODO: Probably move this to its own controller
+
+      resources :notes, controller: 'children/notes'
+
       member do
         # Placements
         get    'placement', action: :show
         post   'placement', action: :placement_start
         delete 'placement', action: :placement_end
-
-        get  :notes
-        post :notes, action: :create_note
 
       end # / Member
 
