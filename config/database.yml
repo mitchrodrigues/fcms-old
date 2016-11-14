@@ -15,11 +15,16 @@
 <% db_user = ENV['DB_USER'] || 'root' %>
 <% db_pass = ENV['DB_PASS'] || '' %>
 <% db_pool = ENV['DB_POOL'] || 5 %>
+<% db_url  = ENV['JAWSDB_MARIA_URL'] %>
 
 default: &default
   adapter: mysql
+<% if db_url %>
+  url: db_url
+<% else %>
   username: <%= db_user %>
   password: <%= db_pass %>
+<% end %>  
   host: <%= db_host %>
   pool: <%= db_pool %>
 
