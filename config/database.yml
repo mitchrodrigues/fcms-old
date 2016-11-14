@@ -15,7 +15,7 @@
 <% db_user = ENV['DB_USER'] || 'root' %>
 <% db_pass = ENV['DB_PASS'] || '' %>
 <% db_pool = ENV['DB_POOL'] || 5 %>
-<% db_url  = ENV['JAWSDB_MARIA_URL'] %>
+<% db_url  = ENV['DB_URL'] %>
 
 <% $stderr.puts "Using DB URL: #{db_url}" %>
 
@@ -35,5 +35,5 @@ test:
   database: <%= db_name %>_test
 
 production:
-  <<: *default
-  database: <%= db_name %>
+  url: <%= db_url %>
+  pool: 40
