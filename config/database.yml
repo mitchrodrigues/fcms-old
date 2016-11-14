@@ -19,8 +19,8 @@
 
 default: &default
   adapter: mysql
-<% if db_url %>
-  url: <%= db_url %>
+<% if ENV['JAWSDB_MARIA_URL']  %>
+  url: <%= ENV['JAWSDB_MARIA_URL'] %>
 <% else %>
   username: <%= db_user %>
   password: <%= db_pass %>
@@ -38,4 +38,3 @@ test:
 
 production:
   <<: *default
-  database: <%= db_name %>

@@ -8,8 +8,8 @@ class ApplicationController < ActionController::Base
 
   def cors_headers    
     response.headers['Access-Control-Request-Method'] = "GET, POST, DELETE, OPTIONS"
-    headers['Access-Control-Allow-Origin']   = "http://localhost:3333"
-    headers['Access-Control-Allow-Credentials'] = 'true'
+    headers['Access-Control-Allow-Origin']            = "http://localhost:3333"
+    headers['Access-Control-Allow-Credentials']       = 'true'
   end
 
   def options_route
