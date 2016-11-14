@@ -6,4 +6,5 @@ class Note < ActiveRecord::Base
 
   scope :notes_for, ->(user) { where("privacy = 'public' OR creator_id = #{user.id}") }
 
+  has_paper_trail  
 end

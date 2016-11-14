@@ -20,14 +20,14 @@ module V1
     def create
       @child = current_organization.children.new(child_params)
       unless child.save
-        return api_render(false, "CHILD.SAVE_FAILED", error: child.errors.full_messages)
+        return api_render(false, "ERROR.SAVE_FAILED", error: child.errors.full_messages)
       end
       render action: :show
     end
 
     def update
       unless child.update_attributes(child_params)
-        return api_render(false, "CHILD.SAVE_FAILED", error: child.errors.full_messages)
+        return api_render(false, "ERROR.SAVE_FAILED", error: child.errors.full_messages)
       end
       render action: :show
     end

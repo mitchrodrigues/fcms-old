@@ -1,4 +1,5 @@
 require 'auth/controller'
+require 'errors'
 
 module V1
   class BaseController < ApplicationController
@@ -9,7 +10,7 @@ module V1
     def require_parameters(*parms)
       parms.each do |parm|
         if params[parm].blank?
-          api_render(false, { key: "ERROR.MISSING_PARAMS" })
+          api_render(false, { key: Errors::MISSING_PARAMS })
           return false
         end
       end
@@ -23,9 +24,12 @@ module V1
     end
 
     def with(*args)
-      parv = args.collect do |arg| 
-        rec = send(arg)        
-        return api_render(false, "ERROR.#{arg.to_s.upcase}_NOT_FOUND") if ! rec
+      parv = args.collect do |arg|   
+        if !(rec = send(arg))
+          return api_render(false, 
+                  Errors::RECORD_NOT_FOUND, 
+                  error: ["#{arg.to_s.titlecase} not found."])
+        end
         rec
       end
 
