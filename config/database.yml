@@ -21,10 +21,14 @@
 
 default: &default
   adapter: mysql
-  username: <%= db_user %>
-  password: <%= db_pass %>
-  host: <%= db_host %>
-  pool: <%= db_pool %>
+  <% if ENV['DB_URL'] %>
+    url: "jdbc:mysql://u8ze3v8fpfqmz1n8:gx7wuek4keopqt8o@d5x4ae6ze2og6sjo.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/wpsgt5qmhwon0yc3"
+  <% else %>
+    username: <%= db_user %>
+    password: <%= db_pass %>
+    host: <%= db_host %>
+    pool: <%= db_pool %>
+  <% end %>
 
 development:
   <<: *default
@@ -35,6 +39,5 @@ test:
   database: <%= db_name %>_test
 
 production:
-  # url: <%= db_url %>
-  url: mysql://u8ze3v8fpfqmz1n8:gx7wuek4keopqt8o@d5x4ae6ze2og6sjo.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/wpsgt5qmhwon0yc3
+  <<: *default
   pool: 40
