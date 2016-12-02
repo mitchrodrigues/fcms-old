@@ -1,6 +1,6 @@
 module V1
   module Children
-    class NotesController < BaseController
+    class NotesController < Children::BaseController
       before_action :lookup_child
 
       before_action :lookup_note, only: [:destroy, :update, :show]

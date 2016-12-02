@@ -1,5 +1,5 @@
 json.success true
-json.extract! @child, :first_name, :middle_name, :last_name, :active, :dob, :age
+json.extract! @child, :id, :first_name, :middle_name, :last_name, :active, :dob, :age
 json.photo_url 'http://fcms.sjc.taazoo.cc:8080/images/avatar.gif'
 
 json.case_workers do |cworkers|
