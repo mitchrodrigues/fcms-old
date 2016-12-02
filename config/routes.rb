@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :session, only: [:create, :index] do
+    resources :session, only: [:create, :index, :show] do
       collection do
         delete '/', action: :destroy
       end

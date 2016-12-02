@@ -6,7 +6,8 @@ json.array!(@children) do |children|
     cworkers.array! children.staff do |staff_hash|
       json.extract! staff_hash, :id, :first_name, :last_name
       json.full_name staff_hash.subject
-      json.primary children.primary_case_worker.id == staff_hash.id
+
+      json.primary children.current_staff.id == staff_hash.id
     end  
   end
 

@@ -46,7 +46,7 @@ module V1
           return api_render(false, Errors::SAVE_FAILED, error: note.errors.full_messages)
         end
 
-        api_render(true, "NOTE.DELETED")
+        api_render(true, 'NOTE.DELETED')
       end
 
       private
