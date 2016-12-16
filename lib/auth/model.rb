@@ -2,11 +2,11 @@ require 'digest'
 
 module Auth
   module Model
-    DEFAULT_PEPPER     = '3ee1c640'
-    RANDOM_HEX_LENGTH  = 6
+    DEFAULT_PEPPER     = ENV['LOGIN_PEPER']      || '3xDe1c640'
+    RANDOM_HEX_LENGTH  = ENV['LOGIN_HEX_LENGTH'] || 6
 
     def random_hex
-      SecureRandom.hex(RANDOM_HEX_LENGTH) # Hard code for now
+      SecureRandom.hex(RANDOM_HEX_LENGTH)
     end
 
     def generate_hex_pair(plain_string)

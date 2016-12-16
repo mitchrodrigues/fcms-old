@@ -1,0 +1,1 @@
+ENV['LOGIN_PEPER'] = '3ee1c640'
